@@ -1,11 +1,11 @@
 # Minecraft用
 
-[![](https://jitpack.io/v/xyz.mlserver/PacketListenerAPI.svg)](https://jitpack.io/#xyz.mlserver/PacketListenerAPI)
+[![](https://jitpack.io/v/xyz.mlserver/ReflectionHelper.svg)](https://jitpack.io/#xyz.mlserver/ReflectionHelper)
 [![Twitter](https://badgen.net/twitter/follow/monster_2408?icon=twitter)](https://twitter.com/monster_2408)
 [![Discord](https://discord.com/api/guilds/556844677115150366/widget.png)](https://discord.mlserver.xyz)
 [Website](https://monster2408.com)
 
-[Java Docs](https://docs.mlserver.jp/PacketListenerAPI/)
+[Java Docs](https://docs.mlserver.jp/ReflectionHelper/)
 
 ```xml
 <project>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>xyz.mlserver</groupId>
-            <artifactId>PacketListenerAPI</artifactId>
+            <artifactId>ReflectionHelper</artifactId>
             <version>VERSION</version>
         </dependency>
     </dependencies>
@@ -27,7 +27,6 @@
 ```
 
 # 流用元
-- [ReflectionHelper](https://github.com/InventivetalentDev/ReflectionHelper/tree/3931a0054ac81e5623016a9ba6cfb1d29d980be4)
 - [Spigot-Update](https://github.com/InventivetalentDev/Spiget-Update/tree/abbbb4d4b979dfb86ad040025c7f89fd9602dca6)
 
 # JavaDocの生成

@@ -8,6 +8,7 @@ import xyz.mlserver.reflectionhelper.resolver.MethodResolver;
 import xyz.mlserver.reflectionhelper.resolver.minecraft.NMSClassResolver;
 import xyz.mlserver.reflectionhelper.resolver.minecraft.OBCClassResolver;
 import xyz.mlserver.reflectionhelper.util.AccessUtil;
+import xyz.mlserver.reflectionhelper.util.ConstructorAccessor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

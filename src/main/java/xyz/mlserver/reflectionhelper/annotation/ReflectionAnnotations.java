@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.Class;
 
 public class ReflectionAnnotations {
 
@@ -29,41 +30,16 @@ public class ReflectionAnnotations {
 		ClassResolver classResolver = new ClassResolver();
 
 		for (java.lang.reflect.Field field : toLoad.getClass().getDeclaredFields()) {
-			java.lang.Class classAnnotation = field.getAnnotation(java.lang.Class.class);
 			Field fieldAnnotation = field.getAnnotation(Field.class);
 			Method methodAnnotation = field.getAnnotation(Method.class);
 
-			if (classAnnotation == null && fieldAnnotation == null && methodAnnotation == null) {
+			if (fieldAnnotation == null && methodAnnotation == null) {
 				continue;
 			} else {
 				field.setAccessible(true);
 			}
 
-			if (classAnnotation != null) {
-				List<String> nameList = parseAnnotationVersions(java.lang.Class.class, classAnnotation);
-				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Class names cannot be empty"); }
-				String[] names = nameList.toArray(new String[nameList.size()]);
-				for (int i = 0; i < names.length; i++) {// Replace NMS & OBC
-					names[i] = names[i]
-							.replace("{nms}", "net.minecraft.server." + Minecraft.VERSION.name())
-							.replace("{obc}", "org.bukkit.craftbukkit." + Minecraft.VERSION.name());
-				}
-				try {
-					if (ClassWrapper.class.isAssignableFrom(field.getType())) {
-						field.set(toLoad, classResolver.resolveWrapper(names));
-					} else if (java.lang.Class.class.isAssignableFrom(field.getType())) {
-						field.set(toLoad, classResolver.resolve(names));
-					} else {
-						throwInvalidFieldType(field, toLoad, "Class or ClassWrapper");
-						return;
-					}
-				} catch (ReflectiveOperationException e) {
-					if (!classAnnotation.ignoreExceptions()) {
-						throwReflectionException("@Class", field, toLoad, e);
-						return;
-					}
-				}
-			} else if (fieldAnnotation != null) {
+			if (fieldAnnotation != null) {
 				List<String> nameList = parseAnnotationVersions(Field.class, fieldAnnotation);
 				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Field names cannot be empty"); }
 				String[] names = nameList.toArray(new String[nameList.size()]);
@@ -83,10 +59,10 @@ public class ReflectionAnnotations {
 						return;
 					}
 				}
-			} else if (methodAnnotation != null) {
+			} else {
 				List<String> nameList = parseAnnotationVersions(Method.class, methodAnnotation);
 				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Method names cannot be empty"); }
-				String[] names = nameList.toArray(new String[nameList.size()]);
+				String[] names = nameList.toArray(new String[0]);
 
 				boolean isSignature = names[0].contains(" ");// Only signatures can contain spaces (e.g. "void aMethod()")
 				for (String s : names) {
@@ -174,9 +150,9 @@ public class ReflectionAnnotations {
 				String fieldName = matcher.group(1);// It's a reference to a previously loaded class
 				java.lang.reflect.Field field = toLoad.getClass().getField(fieldName);
 				if (ClassWrapper.class.isAssignableFrom(field.getType())) {
-					return ((ClassWrapper) field.get(toLoad)).getName();
+					return ((ClassWrapper<?>) field.get(toLoad)).getName();
 				} else if (java.lang.Class.class.isAssignableFrom(field.getType())) {
-					return ((java.lang.Class) field.get(toLoad)).getName();
+					return ((Class<?>) field.get(toLoad)).getName();
 				}
 			}
 			return className;

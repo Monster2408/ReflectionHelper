@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Container class for resolver-queries Used by {@link MethodResolver}
  *
- * @see org.inventivetalent.reflection.resolver.ResolverQuery.Builder
+ * @see xyz.mlserver.reflectionhelper.resolver.ResolverQuery.Builder
  */
 public class ResolverQuery {
 
